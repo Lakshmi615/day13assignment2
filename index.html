@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="timer-title">TIMER</h1>
+
+        <div class="timer-display">
+            <span id="minutes">00</span> : <span id="seconds">00</span>
+        </div>
+
+        <div class="controls">
+            <button id="startButton" class="button start-button">START</button>
+            <button id="stopButton" class="button stop-button">STOP</button>
+            <button id="resetButton" class="button reset-button">RESET</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e0f2f7; 
+    color: #333;
+}
+
+.container {
+    background-color: #ffffff; 
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    box-sizing: border-box;
+}
+
+.timer-title {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #555; 
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.timer-display {
+    font-family: 'Roboto Mono', monospace; 
+    font-size: 3em; 
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 40px;
+    padding: 10px 0;
+    border-radius: 10px;
+    display: inline-block; 
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+    flex-wrap: wrap; 
+}
+
+.button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+}
+
+.start-button {
+    background-color: #66bb6a; 
+}
+
+.start-button:hover {
+    background-color: #5cb85c;
+    transform: translateY(-2px);
+}
+
+.stop-button {
+    background-color: #ef5350; 
+}
+
+.stop-button:hover {
+    background-color: #d9534f;
+    transform: translateY(-2px);
+}
+
+.reset-button {
+    background-color: #a5d6a7; 
+    color: #333; 
+}
+
+.reset-button:hover {
+    background-color: #9ccc9c;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 30px;
+    }
+    .timer-title {
+        font-size: 2em;
+    }
+    .timer-display {
+        font-size: 4em;
+        margin-bottom: 30px;
+    }
+    .controls {
+        flex-direction: column; 
+        gap: 15px;
+    }
+    .button {
+        width: 80%; 
+        max-width: 200px;
+        margin: 0 auto; 
+    }
+}
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const minutesDisplay = document.getElementById('minutes');
+    const secondsDisplay = document.getElementById('seconds');
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+    const resetButton = document.getElementById('resetButton');
+
+    let totalSeconds = 0; 
+    let timerInterval; 
+    function updateDisplay() {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        minutesDisplay.textContent = String(minutes).padStart(2, '0');
+        secondsDisplay.textContent = String(seconds).padStart(2, '0');
+    }
+
+    function startTimer() {
+        if (timerInterval) return; 
+
+        timerInterval = setInterval(() => {
+            totalSeconds++; 
+            updateDisplay();
+        }, 1000); 
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null; 
+    }
+
+    function resetTimer() {
+        stopTimer(); 
+        totalSeconds = 0; 
+        updateDisplay(); 
+    }
+    startButton.addEventListener('click', startTimer);
+    stopButton.addEventListener('click', stopTimer);
+    resetButton.addEventListener('click', resetTimer);
+    updateDisplay();
+});
+</script>
